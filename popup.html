@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TempSnap</title>
+  <link rel="stylesheet" href="popup.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <main class="popup-shell">
+    <header class="header">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 40 40" role="presentation">
+            <defs>
+              <linearGradient id="brandGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#8ed3ff" />
+                <stop offset="100%" stop-color="#3d8cff" />
+              </linearGradient>
+            </defs>
+            <circle cx="20" cy="20" r="18" fill="url(#brandGrad)" />
+            <circle cx="18" cy="20" r="7" fill="#ffffff" fill-opacity="0.95" />
+            <circle cx="18" cy="20" r="3" fill="#3d8cff" />
+            <circle cx="28" cy="14" r="6" fill="#ffffff" fill-opacity="0.92" />
+            <line x1="28" y1="14" x2="28" y2="10.8" stroke="#3d8cff" stroke-width="1.6" stroke-linecap="round" />
+            <line x1="28" y1="14" x2="30.5" y2="15.5" stroke="#3d8cff" stroke-width="1.6" stroke-linecap="round" />
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>TempSnap</h1>
+          <p>Temporary screenshot tool</p>
+        </div>
+      </div>
+      <div class="header-tools">
+        <div class="shortcut" aria-label="Keyboard shortcut">Ctrl + Shift + X</div>
+        <button id="settingsBtn" class="settings-btn" type="button" aria-label="Timer settings" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M19.14 12.94C19.18 12.64 19.2 12.33 19.2 12C19.2 11.67 19.18 11.36 19.14 11.06L21.03 9.59C21.2 9.45 21.25 9.2 21.13 9L19.33 5.88C19.21 5.68 18.96 5.6 18.74 5.68L16.51 6.58C16.04 6.22 15.53 5.92 14.96 5.7L14.62 3.32C14.58 3.1 14.39 2.94 14.16 2.94H10.56C10.33 2.94 10.14 3.1 10.1 3.32L9.76 5.7C9.19 5.92 8.68 6.22 8.21 6.58L5.98 5.68C5.76 5.6 5.51 5.68 5.39 5.88L3.59 9C3.47 9.2 3.52 9.45 3.69 9.59L5.58 11.06C5.54 11.36 5.52 11.67 5.52 12C5.52 12.33 5.54 12.64 5.58 12.94L3.69 14.41C3.52 14.55 3.47 14.8 3.59 15L5.39 18.12C5.51 18.32 5.76 18.4 5.98 18.32L8.21 17.42C8.68 17.78 9.19 18.08 9.76 18.3L10.1 20.68C10.14 20.9 10.33 21.06 10.56 21.06H14.16C14.39 21.06 14.58 20.9 14.62 20.68L14.96 18.3C15.53 18.08 16.04 17.78 16.51 17.42L18.74 18.32C18.96 18.4 19.21 18.32 19.33 18.12L21.13 15C21.25 14.8 21.2 14.55 21.03 14.41L19.14 12.94ZM12.36 15.6C10.37 15.6 8.76 13.99 8.76 12C8.76 10.01 10.37 8.4 12.36 8.4C14.35 8.4 15.96 10.01 15.96 12C15.96 13.99 14.35 15.6 12.36 15.6Z" />
+          </svg>
+        </button>
+        <div id="settingsFlyout" class="settings-flyout hidden" role="dialog" aria-label="Settings">
+          <div class="settings-section">
+            <label for="timerInput">Auto-delete (minutes)</label>
+            <input id="timerInput" type="number" min="1" max="1440" value="10">
+          </div>
+          <div class="settings-divider"></div>
+          <div class="settings-section">
+            <div class="dark-mode-toggle-row">
+              <label for="darkModeToggle">Dark mode</label>
+              <button id="darkModeToggle" class="toggle-btn" type="button" aria-pressed="false" title="Toggle dark mode">
+                <span class="toggle-circle"></span>
+              </button>
+            </div>
+          </div>
+          <div class="settings-divider"></div>
+          <div class="settings-section shortcuts-section">
+            <details class="instructions-details">
+              <summary>Editor shortcut keys</summary>
+              <div class="shortcut-grid" aria-label="Editor shortcut keys">
+                <label for="shortcutCrop">Crop</label>
+                <input id="shortcutCrop" type="text" maxlength="8" value="C">
+
+                <label for="shortcutHighlight">Highlight</label>
+                <input id="shortcutHighlight" type="text" maxlength="8" value="H">
+
+                <label for="shortcutArrow">Arrow</label>
+                <input id="shortcutArrow" type="text" maxlength="8" value="A">
+
+                <label for="shortcutBlur">Blur</label>
+                <input id="shortcutBlur" type="text" maxlength="8" value="B">
+
+                <label for="shortcutReset">Reset</label>
+                <input id="shortcutReset" type="text" maxlength="8" value="R">
+
+                <label for="shortcutSave">Save</label>
+                <input id="shortcutSave" type="text" maxlength="8" value="ENTER">
+
+                <label for="shortcutCancel">Cancel</label>
+                <input id="shortcutCancel" type="text" maxlength="8" value="ESC">
+              </div>
+            </details>
+          </div>
+          <div class="settings-divider"></div>
+          <div class="settings-section instructions-section">
+            <details class="instructions-details">
+              <summary>How to use</summary>
+              <ul class="instructions-list">
+                <li><strong>Capture:</strong> Click "Capture &amp; Copy" or press Ctrl+Shift+X</li>
+                <li><strong>Select area:</strong> Drag to select region, press Escape to cancel</li>
+                <li><strong>Copy:</strong> Copies latest screenshot to clipboard</li>
+                <li><strong>Pin:</strong> Prevent auto-delete of a screenshot</li>
+                <li><strong>God Mode:</strong> Select multiple snapshots</li>
+                <li><strong>Copy Multi:</strong> Paste all selected images sequentially</li>
+                <li><strong>Editor Shortcuts:</strong> Customizable above. Default: C/H/A/B, R, Enter, Esc</li>
+              </ul>
+            </details>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="main-card">
+      <button id="snapBtn" class="capture-btn" type="button">
+        <span>Capture &amp; Copy</span>
+      </button>
+
+      <article id="previewCard" class="preview-card hidden" aria-live="polite">
+        <img id="previewImage" src="" alt="Latest screenshot preview">
+        <canvas id="editCanvas" class="edit-canvas hidden" aria-label="Quick edit canvas"></canvas>
+      </article>
+
+      <div id="quickEditBar" class="quick-edit-bar hidden" aria-label="Quick edit tools">
+        <div class="quick-edit-tools">
+          <button class="quick-tool-btn active" data-tool="crop" type="button">Crop</button>
+          <button class="quick-tool-btn" data-tool="highlight" type="button">Highlight</button>
+          <button class="quick-tool-btn" data-tool="arrow" type="button">Arrow</button>
+          <button class="quick-tool-btn" data-tool="blur" type="button">Blur</button>
+        </div>
+        <div class="quick-edit-actions">
+          <button id="editResetBtn" class="quick-edit-action" type="button">Reset</button>
+          <button id="editCancelBtn" class="quick-edit-action" type="button">Cancel</button>
+          <button id="editApplyBtn" class="quick-edit-action primary" type="button">Apply</button>
+        </div>
+      </div>
+
+      <div id="timerWrap" class="timer-wrap hidden" aria-live="polite">
+        <div class="timer-row">
+          <div class="timer-ring" role="progressbar" aria-label="Auto-delete countdown" aria-valuemin="0" aria-valuemax="100"
+            aria-valuenow="100">
+            <svg viewBox="0 0 36 36">
+              <circle class="ring-track" cx="18" cy="18" r="15" />
+              <circle id="ringProgress" class="ring-progress" cx="18" cy="18" r="15" />
+            </svg>
+          </div>
+          <p id="deleteText" class="delete-text">Deleting in 09:42</p>
+        </div>
+        <div class="progress-track" aria-hidden="true">
+          <div id="progressFill" class="progress-fill"></div>
+        </div>
+      </div>
+
+      <p id="statusMsg" class="status-msg">Ready to capture your next snippet.</p>
+
+      <section id="recentStrip" class="recent-strip hidden" aria-label="Recent snaps">
+        <div class="recent-head-row">
+          <div class="recent-head">Recent snaps</div>
+          <div class="recent-controls">
+            <button id="selectAllBtn" class="god-lite-btn hidden" type="button" title="Select all snaps">Select all</button>
+            <button id="godModeBtn" class="god-mode-btn" type="button" title="Select multiple snaps">
+              God Mode
+            </button>
+          </div>
+        </div>
+        <div id="recentList" class="recent-list"></div>
+        <div id="godModeBar" class="god-mode-bar hidden">
+          <span id="selectedCount">0 selected</span>
+          <button id="copyMultiBtn" class="god-copy-btn" type="button" disabled>Copy Multi</button>
+        </div>
+      </section>
+    </section>
+
+    <footer class="actions" aria-label="Screenshot actions">
+      <button id="copyBtn" class="action-btn" type="button" title="Copy">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z" />
+        </svg>
+        <span>Copy</span>
+      </button>
+
+      <button id="pinBtn" class="action-btn" type="button" title="Pin">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M14 4V2H10V4L8 8V10H11V19L12 22L13 19V10H16V8L14 4Z" />
+        </svg>
+        <span>Pin</span>
+      </button>
+
+      <button id="deleteBtn" class="action-btn danger" type="button" title="Delete">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7H6V19ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z" />
+        </svg>
+        <span>Delete</span>
+      </button>
+    </footer>
+
+    <div id="onboardingOverlay" class="onboarding-overlay hidden" role="dialog" aria-modal="true" aria-label="TempSnap quick guide">
+      <div class="onboarding-card">
+        <div class="onboarding-badge">Quick Start</div>
+        <h2 id="onboardingTitle">Capture in One Click</h2>
+        <p id="onboardingText">Tap Capture &amp; Copy or use Ctrl + Shift + X to start.</p>
+        <div class="onboarding-dots" aria-hidden="true">
+          <span class="onboarding-dot active"></span>
+          <span class="onboarding-dot"></span>
+          <span class="onboarding-dot"></span>
+        </div>
+        <div class="onboarding-actions">
+          <button id="onboardingSkip" class="onboarding-btn" type="button">Skip</button>
+          <button id="onboardingPrev" class="onboarding-btn" type="button" disabled>Back</button>
+          <button id="onboardingNext" class="onboarding-btn primary" type="button">Next</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="confirmationOverlay" class="confirmation-overlay hidden">
+      <div class="confirmation-modal">
+        <div class="confirmation-header">
+          <div class="confirmation-icon">✓</div>
+          <h2>Screenshot Captured!</h2>
+        </div>
+        <div class="confirmation-content">
+          <img id="confirmationPreview" src="" alt="Captured screenshot" class="confirmation-preview">
+          <div class="confirmation-text">
+            <p class="confirmation-message">Copied to clipboard</p>
+            <p class="confirmation-timer" id="confirmationTimer"></p>
+          </div>
+        </div>
+        <button id="confirmationDismiss" class="confirmation-dismiss" type="button" title="Dismiss">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <script src="popup.js"></script>
+</body>
+
+</html>

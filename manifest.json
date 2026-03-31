@@ -1,0 +1,39 @@
+{
+  "manifest_version": 3,
+  "name": "TempSnap",
+  "version": "1.0",
+  "description": "Capture diagrams and copy to clipboard with auto-delete janitor.",
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+  "permissions": [
+    "activeTab",
+    "storage",
+    "alarms",
+    "clipboardWrite",
+    "notifications",
+    "scripting"
+  ],
+  "commands": {
+    "capture_and_copy": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+X",
+        "mac": "Command+Shift+X"
+      },
+      "description": "Capture the current tab and copy to clipboard"
+    }
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon.png",
+      "48": "icon.png",
+      "128": "icon.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}
