@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "TempSnap",
-  "version": "1.0",
-  "description": "Capture diagrams and copy to clipboard with auto-delete janitor.",
+"version": "2.0",
+  "description": "Capture. Copy. Auto-delete.",
   "icons": {
     "16": "icon.png",
     "48": "icon.png",
